@@ -6,3 +6,8 @@ abstract class HomeEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetMethodsPay extends HomeEvent {
+  final List<MethodsPayModel>? methodsPay;
+  const GetMethodsPay(this.methodsPay);
+}

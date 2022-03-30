@@ -1,10 +1,23 @@
 part of 'home_bloc.dart';
 
-abstract class HomeState extends Equatable {
-  const HomeState();
+class HomeState extends Equatable {
+
+  final List<MethodsPayModel>? methodsPay;
+
+  const HomeState({
+    this.methodsPay
+  });
+
+  HomeState copyWith({
+    List<MethodsPayModel>? methodsPay,
+  }) => HomeState(
+    methodsPay: methodsPay ?? this.methodsPay
+  );
   
+  // @override
+  // List<Object> get props => [ methodsPay ];
+
   @override
   List<Object> get props => [];
 }
 
-class HomeInitial extends HomeState {}
