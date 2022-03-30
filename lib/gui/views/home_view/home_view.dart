@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopbeer/core/blocs/home/home_bloc.dart';
 import 'package:shopbeer/gui/widgets/list_product_widget.dart';
 import 'package:shopbeer/gui/widgets/methods_pay_widget.dart';
 
@@ -12,6 +14,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    // return const LoadingAppWidget();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
@@ -22,17 +25,21 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _body() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        children: const  [
-          MethodsPay(),
-          // DiscountWidget()
-          // _header('Cerveza'),
-          ListProductWidget(titleHeader: 'Cerveza',)
-        ],
-      ),
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              state.methodsPay != null ? const MethodsPay() : const SizedBox(),
+              // DiscountWidget()
+              const ListProductWidget(
+                titleHeader: 'Cerveza',
+              )
+            ],
+          ),
+        );
+      },
     );
   }
-
 }
