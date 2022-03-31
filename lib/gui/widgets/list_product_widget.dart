@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 
 class ListProductWidget extends StatefulWidget {
   final String titleHeader;
+  final List<ProductsModel>? products;
 
-  const ListProductWidget({ Key? key, required this.titleHeader }) : super(key: key);
+  const ListProductWidget({ Key? key, required this.titleHeader, this.products }) : super(key: key);
 
   @override
   State<ListProductWidget> createState() => _ListProductWidgetState();
@@ -22,20 +24,12 @@ class _ListProductWidgetState extends State<ListProductWidget> {
           SizedBox(
             width: double.infinity,
             height: 170.0,
-            child: ListView(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              children: [
-                _item(),
-                _item(),
-                _item(),
-                _item(),
-                _item(),
-                _item(),
-                _item(),
-                _item(),
-                _item(),
-              ],
-              // itemCount: productsServices.productsCerveza.length,
+              itemCount: widget.products!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _item(widget.products![index]);
+              }
             ),
           )
         ],
@@ -43,7 +37,7 @@ class _ListProductWidgetState extends State<ListProductWidget> {
     );
   }
 
-  Widget _item() {
+  Widget _item(ProductsModel? product) {
     return Container(
       width: 120.0,
       decoration: const BoxDecoration(
@@ -58,7 +52,7 @@ class _ListProductWidgetState extends State<ListProductWidget> {
         children: [
           Hero(
             tag: 1,
-            child: Image.network('https://firebasestorage.googleapis.com/v0/b/shop-beer.appspot.com/o/products%2Faguardiente_azul.png?alt=media&token=8ab029ff-1c20-4920-bea5-f4c8c1e6cece', fit: BoxFit.contain, height: 100.0)
+            child: Image.network(product!.img!, fit: BoxFit.contain, height: 100.0)
           ),
           SizedBox(
             height: 50.0,
@@ -66,7 +60,7 @@ class _ListProductWidgetState extends State<ListProductWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Aguardiente', style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 13.0)),
+                Text(product.name!, style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 13.0)),
                 // TextApp(text: productsServices.productsCerveza[i].name, size: 13.0, font: 'Rubik', fontW: FontWeight.bold, textAlign: TextAlign.center,),
                 const SizedBox(height: 5.0),
                 const Text("10.000")
