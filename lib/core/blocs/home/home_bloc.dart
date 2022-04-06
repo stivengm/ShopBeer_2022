@@ -28,8 +28,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(productsModel: event.productsModel));
     });
 
-    // getMethodsPay();
-    // getProducts();
+    getMethodsPay();
+    getProducts();
 
   }
 
