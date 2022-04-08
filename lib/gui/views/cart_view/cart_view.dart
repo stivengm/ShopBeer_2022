@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 class CartView extends StatelessWidget {
   const CartView({ Key? key }) : super(key: key);
@@ -6,7 +7,15 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Carrito de compras"),
+        leading: IconButton(
+        icon: const Icon(
+          Icons.menu
+        ),
+        onPressed: () => ZoomDrawer.of(context)!.toggle()
+      ),
+      ),
     );
   }
 }
