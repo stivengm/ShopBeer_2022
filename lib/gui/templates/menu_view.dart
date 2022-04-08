@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
 
@@ -63,7 +64,8 @@ class _MenuDrawerZoomViewState extends State<MenuDrawerZoomView> {
               //   // ZoomDrawer.of(context)!.close();
               // }),
               PrimaryButton(text: 'Iniciar sesión', onPressed: () {
-                // ZoomDrawer.of(context)!.close();
+                ZoomDrawer.of(context)!.close();
+                Navigator.pushNamed(context, 'login');
               }),
             ],
           ),
