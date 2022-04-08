@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'ShopBeer',
       theme: ThemeData(
         scaffoldBackgroundColor: backgroundApp,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
       debugShowCheckedModeBanner: false,
       routes: routesApp(),
