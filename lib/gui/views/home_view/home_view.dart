@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           body: _body(),
+          floatingActionButton: floatingActionButton(),
         );
       },
     );
@@ -61,4 +62,12 @@ class _HomeViewState extends State<HomeView> {
       },
     );
   }
+
+  FloatingActionButton floatingActionButton() => FloatingActionButton(
+    child: const Icon(
+      Icons.location_on_outlined
+    ),
+    onPressed: () {}
+  );
+
 }
