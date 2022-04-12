@@ -6,3 +6,23 @@ abstract class HomeEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetMethodsPay extends HomeEvent {
+  final List<MethodsPayModel>? methodsPay;
+  const GetMethodsPay(this.methodsPay);
+}
+
+class SaveProductsCerveza extends HomeEvent {
+  final List<ProductsModel>? productsCerveza;
+  const SaveProductsCerveza(this.productsCerveza);
+}
+
+class GetProducts extends HomeEvent {
+  final List<ProductsModel>? productsModel;
+  const GetProducts(this.productsModel);
+}
+
+class HandleLoading extends HomeEvent {
+  final bool isLoading;
+  const HandleLoading(this.isLoading);
+}
