@@ -1,16 +1,52 @@
-# shopbeer
+# ShopBeer
 
-A new Flutter project.
+Este proyecto está desarrollador en Flutter con el lenguaje de programación Dart.
 
-## Getting Started
+## Requisitos
 
-This project is a starting point for a Flutter application.
+- Instalar y configurar Flutter en el computador. [Link Flutter](https://flutter.dev/docs/get-started/install)
+- Instalar y configurar Android Studio. [Link Android Studio](https://developer.android.com/studio)
 
-A few resources to get you started if this is your first Flutter project:
+> Versión de Flutter 2.10.1
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Generar Build APK
+```sh
+# Generar un Build APK
+flutter build apk
+
+# Generar un AppBundle
+flutter build appbundle
+```
+
+### Generar Build iOS
+```sh
+# Generar un Build .plist
+flutter run --release
+```
+
+> NOTA: En este caso tiene que estar el dispositivo conectado al Mac para poder instalar la aplicación.
+
+# Compilación
+
+## Producción (Manual)
+Abrir una `terminal` en la raíz del proyecto y ejecutar los siguientes comandos para limpiar e instalar dependencias:
+
+```sh
+flutter clean
+flutter pub get
+```
+
+Para generar la serialización `JSON` de Modelos, se debe ejecutar el siguiente comando:
+
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+NOTA: Este comando debe ejecutarse cuando:
+* Se hace `git pull`
+* Se editan los Modelos del proyecto
+
+En caso de no ejecutar este comando, la compilación del proyecto va a generar un error porque no encuentra los archivos `*g.dart`. Los IDEs de desarrollo, también marcarán error al no tener las clases creadas.
+
+# Arquitectura App ShopApp
