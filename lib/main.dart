@@ -27,6 +27,6 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routes: routesApp(),
-      initialRoute: 'home',
+      initialRoute: 'gpsPermission',
     );
 }
