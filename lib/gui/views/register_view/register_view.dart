@@ -17,6 +17,7 @@ class _RegisterViewState extends State<RegisterView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: transparent,
       ),
       body: _body(),
     );
