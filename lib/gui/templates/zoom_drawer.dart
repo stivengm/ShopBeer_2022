@@ -3,6 +3,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/templates/menu_view.dart';
 import 'package:shopbeer/gui/views/cart_view/cart_view.dart';
+import 'package:shopbeer/gui/views/favorites_view/favorites_view.dart';
 import 'package:shopbeer/gui/views/home_view/home_view.dart';
 
 class ZoomDrawerApp extends StatefulWidget {
@@ -46,8 +47,8 @@ class _ZoomDrawerAppState extends State<ZoomDrawerApp> {
         return const HomeView();
       case MenuItems.cart:
         return const CartView();
-      // case MenuItems.favorites:
-      //   return const HomeView();
+      case MenuItems.favorites:
+        return const FavoritesView();
       default:
       return const HomeView();
     }
