@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/core/blocs/home/home_bloc.dart';
+import 'package:shopbeer/gui/views/home_view/modal_location.dart';
 import 'package:shopbeer/gui/widgets/list_product_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
 import 'package:shopbeer/gui/widgets/methods_pay_widget.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -67,7 +69,10 @@ class _HomeViewState extends State<HomeView> {
     child: const Icon(
       Icons.location_on_outlined
     ),
-    onPressed: () {}
+    onPressed: () => showCupertinoModalBottomSheet(
+      context: context,
+      builder: (context) => const ModalLocation()
+    )
   );
 
 }
