@@ -17,6 +17,7 @@ class _LoginViewState extends State<LoginView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: transparent,
       ),
       body: _body(),
     );

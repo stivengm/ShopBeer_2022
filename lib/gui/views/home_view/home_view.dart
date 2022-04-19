@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/core/blocs/home/home_bloc.dart';
 import 'package:shopbeer/gui/views/home_view/modal_location.dart';
+import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
+import 'package:shopbeer/gui/widgets/limited_time_widget.dart';
 import 'package:shopbeer/gui/widgets/list_product_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
 import 'package:shopbeer/gui/widgets/methods_pay_widget.dart';
@@ -24,15 +25,7 @@ class _HomeViewState extends State<HomeView> {
         if (state.isLoading) return const LoadingAppWidget();
 
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('ShopBeer'),
-            leading: IconButton(
-              icon: const Icon(
-                Icons.menu
-              ),
-              onPressed: () => ZoomDrawer.of(context)!.toggle()
-            ),
-          ),
+          appBar: const AppBarGeneralWidget(titleAppbar: 'ShopBeer'),
           body: _body(),
           floatingActionButton: floatingActionButton(),
         );
@@ -51,6 +44,7 @@ class _HomeViewState extends State<HomeView> {
                   ? MethodsPay(methodsPay: state.methodsPay)
                   : const SizedBox(),
               // DiscountWidget()
+              const LimitedTime(),
               (state.productsCerveza != null &&
                       state.productsCerveza!.isNotEmpty)
                   ? ListProductWidget(
