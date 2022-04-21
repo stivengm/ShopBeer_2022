@@ -5,7 +5,8 @@ import 'package:shopbeer/gui/constants.dart';
 
 class AppBarGeneralWidget extends StatelessWidget with PreferredSizeWidget {
   final String? titleAppbar;
-  const AppBarGeneralWidget({ Key? key, this.titleAppbar }) : super(key: key);
+  final bool? actions;
+  const AppBarGeneralWidget({ Key? key, this.titleAppbar, this.actions = false }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,14 @@ class AppBarGeneralWidget extends StatelessWidget with PreferredSizeWidget {
         icon: SvgPicture.asset('assets/icons/menu.svg', color: whiteColor,),
         onPressed: () => ZoomDrawer.of(context)!.toggle()
       ),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.notifications_none_rounded
+          ),
+          onPressed: () => Navigator.pushNamed(context, 'notifications'),
+        ),
+      ],
     );
   }
 
