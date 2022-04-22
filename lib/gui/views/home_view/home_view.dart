@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopbeer/core/blocs/home/home_bloc.dart';
+import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/views/home_view/modal_location.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
-import 'package:shopbeer/gui/widgets/limited_time_widget.dart';
 import 'package:shopbeer/gui/widgets/list_product_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
 import 'package:shopbeer/gui/widgets/methods_pay_widget.dart';
@@ -17,6 +17,19 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
+  @override
+  void initState() {
+    super.initState();
+    getProductsAndMethodsPay();
+  }
+
+  Future getProductsAndMethodsPay() async {
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
+    await homeBloc.getMethodsPay();
+    // getProducts(homeBloc);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
@@ -44,12 +57,19 @@ class _HomeViewState extends State<HomeView> {
                   ? MethodsPay(methodsPay: state.methodsPay)
                   : const SizedBox(),
               // DiscountWidget()
-              const LimitedTime(),
+              // const LimitedTime(),
               (state.productsCerveza != null &&
                       state.productsCerveza!.isNotEmpty)
                   ? ListProductWidget(
                       titleHeader: 'Cerveza',
                       products: state.productsCerveza,
+                    )
+                  : const SizedBox(),
+              (state.productsAguardiente != null &&
+                      state.productsAguardiente!.isNotEmpty)
+                  ? ListProductWidget(
+                      titleHeader: 'Aguardiente',
+                      products: state.productsAguardiente,
                     )
                   : const SizedBox()
             ],
