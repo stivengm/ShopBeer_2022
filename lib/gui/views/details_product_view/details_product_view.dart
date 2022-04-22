@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
 
 class DetailProductView extends StatefulWidget {
-  const DetailProductView({ Key? key }) : super(key: key);
+  final ProductsModel? product;
+  const DetailProductView({ Key? key, this.product }) : super(key: key);
 
   @override
   State<DetailProductView> createState() => _DetailProductViewState();
@@ -20,15 +22,19 @@ class _DetailProductViewState extends State<DetailProductView> {
   }
 
   Widget _body() {
+    Size media = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network('https://firebasestorage.googleapis.com/v0/b/shop-beer.appspot.com/o/products%2Fpoker_six_pack.png?alt=media&token=eadcd7ac-9051-4e45-b5ea-e57483837af3'),
+          Hero(
+            tag: widget.product!.id!,
+            child: Image.network(widget.product!.img!, width: media.width * 1.0, height: media.height * .4,),
+          ),
           const SizedBox(height: 20.0),
-          Text("Cerveza Póker", style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 24.0)),
-          Text("6 Cervezas póker de 350ML etcétera.", style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 18.0)),
+          Text(widget.product!.name!, style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 24.0)),
+          Text(widget.product!.description!, style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 18.0)),
           _actions(),
           PrimaryButton(text: 'Añadir al carrito', onPressed: () {})
         ],
