@@ -28,6 +28,9 @@ class _HomeViewState extends State<HomeView> {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
     await homeBloc.getMethodsPay();
     await homeBloc.getProducts();
+    _store.productsCerveza = [];
+    _store.productsAguardiente = [];
+    _store.productsRon = [];
     for (var item in _store.productsModel) {
       switch (item.typeProductId) {
         case 1:
@@ -94,6 +97,7 @@ class _HomeViewState extends State<HomeView> {
                         products: _store.productsRon,
                       )
                     : const SizedBox(),
+                const SizedBox(height: 20.0)
               ],
             ),
           ),
