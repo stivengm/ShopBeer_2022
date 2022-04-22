@@ -7,6 +7,7 @@ import 'package:shopbeer/core/paths/endpoints_path.dart';
 import 'package:shopbeer/data/models/methos_pay_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shopbeer/data/models/products_model.dart';
+import 'package:shopbeer/gui/views/home_view/home_view_store.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -37,43 +38,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future getProducts() async {
+    final _storeHome = StoreHomeView();
     var url = Uri.https(EndpointPath.endPoint, EndpointPath.products);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonProductsModel = jsonDecode(response.body);
       final List<ProductsModel> methodsModel = jsonProductsModel.map<ProductsModel>((m) => ProductsModel.fromJson(Map<String, dynamic>.from(m))).toList();
+      _storeHome.productsModel = methodsModel;
       add( GetProducts(methodsModel) );
-      // List<ProductsModel> productsCervezaList = [];
-      // List<ProductsModel> productsAguardiente = [];
-      // final controllerStream = StreamController<List<ProductsModel>>();
-      // final suscriptionStream = controllerStream.stream.listen((event) {
-      //   print('event $event');
-      //   for (var item in event) {
-      //     switch (item.typeProductId) {
-      //       case 1:
-      //         if (productsCervezaList.isNotEmpty) {
-      //           productsCervezaList.add(item);
-      //         } else {
-      //           productsCervezaList = state.productsCerveza!.toList();
-      //           productsCervezaList.add(item);
-      //         }
-      //         add(SaveProductsCerveza(productsCervezaList));
-      //         break;
-      //       case 2:
-      //         if (productsAguardiente.isNotEmpty) {
-      //           productsAguardiente.add(item);
-      //         } else {
-      //           productsAguardiente = state.productsAguardiente!.toList();
-      //           productsAguardiente.add(item);
-      //         }
-      //         break;
-      //       default:
-      //     } 
-      //   }
-      // });
-      // controllerStream.add(methodsModel);
-      // add(SaveProductsAguardiente(productsAguardiente));
-      // add(SaveProductsCerveza(productsCervezaList));
       add( const HandleLoading(false) );
     }
   }
