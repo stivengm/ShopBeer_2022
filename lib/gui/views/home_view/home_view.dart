@@ -28,6 +28,21 @@ class _HomeViewState extends State<HomeView> {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
     await homeBloc.getMethodsPay();
     await homeBloc.getProducts();
+    for (var item in _store.productsModel) {
+      switch (item.typeProductId) {
+        case 1:
+          _store.productsCerveza.add(item);
+          break;
+        case 2:
+          _store.productsAguardiente.add(item);
+          break;
+        case 3:
+          _store.productsRon.add(item);
+          break;
+        default:
+      } 
+    }
+    setState(() { });
   }
 
   @override
@@ -49,29 +64,38 @@ class _HomeViewState extends State<HomeView> {
   Widget _body() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              (state.methodsPay != null && state.methodsPay!.isNotEmpty)
-                  ? MethodsPay(methodsPay: state.methodsPay)
-                  : const SizedBox(),
-              // DiscountWidget()
-              // const LimitedTime(),
-              (_store.productsModel.isNotEmpty)
-                  ? ListProductWidget(
-                      titleHeader: 'Cerveza',
-                      products: _store.productsModel,
-                    )
-                  : const SizedBox(),
-              (state.productsAguardiente != null &&
-                      state.productsAguardiente!.isNotEmpty)
-                  ? ListProductWidget(
-                      titleHeader: 'Aguardiente',
-                      products: state.productsAguardiente,
-                    )
-                  : const SizedBox(),
-            ],
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                (state.methodsPay != null && state.methodsPay!.isNotEmpty)
+                    ? MethodsPay(methodsPay: state.methodsPay)
+                    : const SizedBox(),
+                // DiscountWidget()
+                // const LimitedTime(),
+                (_store.productsCerveza.isNotEmpty)
+                    ? ListProductWidget(
+                        titleHeader: 'Cerveza',
+                        products: _store.productsCerveza,
+                      )
+                    : const SizedBox(),
+                const SizedBox(height: 20.0),
+                (_store.productsAguardiente.isNotEmpty)
+                    ? ListProductWidget(
+                        titleHeader: 'Aguardiente',
+                        products: _store.productsAguardiente,
+                      )
+                    : const SizedBox(),
+                const SizedBox(height: 20.0),
+                (_store.productsRon.isNotEmpty)
+                    ? ListProductWidget(
+                        titleHeader: 'Ron',
+                        products: _store.productsRon,
+                      )
+                    : const SizedBox(),
+              ],
+            ),
           ),
         );
       },
