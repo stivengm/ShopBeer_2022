@@ -51,6 +51,7 @@ dependencies:
   another_flushbar: ^1.10.28
   sqflite: ^2.0.2+1
   path_provider: ^2.0.9
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
