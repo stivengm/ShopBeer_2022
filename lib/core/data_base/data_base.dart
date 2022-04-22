@@ -44,6 +44,15 @@ class DataBaseApp {
         typeProductId $integerType,
         price $textType
       )
+      CREATE TABLE cart(
+        id $idType,
+        name $textType,
+        img $textType,
+        description $textType,
+        typeProductId $integerType,
+        price $textType,
+        cantidad $integerType
+      )
     ''');
   }
 
@@ -54,7 +63,14 @@ class DataBaseApp {
     return result.map((json) => ProductsModel.fromJson(json)).toList();
   }
 
-  Future<int> update(int id) async {
+  Future<List<ProductsModel>> readAllCartProduct() async {
+    final db = await instance.db;
+
+    final result = await db.query('cart');
+    return result.map((json) => ProductsModel.fromJson(json)).toList();
+  }
+
+  Future<int> deleteFavorites(int id) async {
     final db = await instance.db;
 
     return await db.delete(
@@ -68,6 +84,13 @@ class DataBaseApp {
     final db = await instance.db;
 
     final id = await db.insert('favorites', product.toJson());
+    return product.copyWith(id: id);
+  }
+
+  Future<ProductsModel> createCartItem(ProductsModel product) async {
+    final db = await instance.db;
+
+    final id = await db.insert('cart', product.toJson());
     return product.copyWith(id: id);
   }
 
