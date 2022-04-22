@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopbeer/gui/templates/zoom_drawer.dart';
 import 'package:shopbeer/gui/views/cart_view/cart_view.dart';
+import 'package:shopbeer/gui/views/details_product_view/details_product_view.dart';
 import 'package:shopbeer/gui/views/gps_status_view/gps_status_view.dart';
 import 'package:shopbeer/gui/views/login_view/login_view.dart';
 import 'package:shopbeer/gui/views/notifications_view/notifications_view.dart';
@@ -13,4 +14,5 @@ Map<String, WidgetBuilder> routesApp() => <String, WidgetBuilder> {
   'register': ( _ ) => const RegisterView(),
   'gpsPermission': ( _ ) => const GpsStatusView(),
   'notifications': ( _ ) => const NotificationsView(),
+  'detailsProduct': ( _ ) => const DetailProductView(),
 };
