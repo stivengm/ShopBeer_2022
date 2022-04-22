@@ -13,6 +13,7 @@ class DetailProductView extends StatefulWidget {
 
 class _DetailProductViewState extends State<DetailProductView> {
   int cantidad = 1;
+  int priceTotal = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,26 +24,48 @@ class _DetailProductViewState extends State<DetailProductView> {
 
   Widget _body() {
     Size media = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Hero(
-            tag: widget.product!.id!,
-            child: Image.network(widget.product!.img!, width: media.width * 1.0, height: media.height * .4,),
-          ),
-          const SizedBox(height: 20.0),
-          Text(widget.product!.name!, style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 24.0)),
-          Text(widget.product!.description!, style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 18.0)),
-          _actions(),
-          PrimaryButton(text: 'Añadir al carrito', onPressed: () {})
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Hero(
+              tag: widget.product!.id!,
+              child: Image.network(widget.product!.img!, width: media.width * 1.0, height: media.height * .4,),
+            ),
+            const SizedBox(height: 20.0),
+            Text(widget.product!.name!, style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 24.0)),
+            Text(widget.product!.price!, style: Theme.of(context).textTheme.headline6,),
+            const SizedBox(height: 10.0),
+            Text(widget.product!.description!, style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 18.0)),
+            const SizedBox(height: 20.0),
+            _actions(),
+            const SizedBox(height: 20.0),
+            PrimaryButton(text: 'Añadir al carrito', onPressed: () {}),
+            const SizedBox(height: 20.0)
+          ],
+        ),
       ),
     );
   }
 
   Widget _actions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buttons(),
+        _addProductPrice(),
+        const SizedBox()
+      ],
+    );
+  }
+
+  Widget _addProductPrice() {
+    return cantidad == 1 ? const SizedBox() : Text(priceTotal.toString(), style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 25.0));
+  }
+
+  Widget _buttons() {
     return Row(
       children: [
         Material(
@@ -54,6 +77,7 @@ class _DetailProductViewState extends State<DetailProductView> {
               setState(() {
                 if (cantidad > 1) {
                   cantidad = cantidad - 1;
+                  priceTotal = int.parse(widget.product!.price!) * cantidad;
                 }
               });
             },
@@ -78,6 +102,7 @@ class _DetailProductViewState extends State<DetailProductView> {
             onTap: () {
               setState(() {
                 cantidad = cantidad + 1;
+                priceTotal = int.parse(widget.product!.price!) * cantidad;
               });
             },
             child: const SizedBox(
@@ -90,30 +115,6 @@ class _DetailProductViewState extends State<DetailProductView> {
             ),
           ),
         ),
-        // Container(
-        //     decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(8.0),
-        //       border: Border.all(
-        //         width: 1
-        //       )
-        //     ),
-        //     child: IconButton(
-        //       icon: const Icon(
-        //         Icons.remove
-        //       ),
-        //       onPressed: () {
-
-        //       },
-        //     ),
-        //   ),
-        // IconButton(
-        //   icon: const Icon(
-        //     Icons.remove
-        //   ),
-        //   onPressed: () {
-
-        //   }, 
-        // ),
       ],
     );
   }
