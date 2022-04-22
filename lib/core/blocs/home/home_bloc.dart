@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shopbeer/core/paths/endpoints_path.dart';
 import 'package:shopbeer/data/models/methos_pay_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shopbeer/data/models/products_model.dart';
@@ -36,7 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future getProducts() async {
-    var url = Uri.https('shop-beer-default-rtdb.firebaseio.com', '/products.json');
+    var url = Uri.https(EndpointPath.endPoint, EndpointPath.products);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonProductsModel = jsonDecode(response.body);
@@ -78,13 +79,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future getMethodsPay() async {
-    var url = Uri.https('shop-beer-default-rtdb.firebaseio.com', '/medios_pago.json');
+    var url = Uri.https(EndpointPath.endPoint, EndpointPath.mediosPay);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonMethodsModel = jsonDecode(response.body);
       final List<MethodsPayModel> methodsModel = jsonMethodsModel.map<MethodsPayModel>((m) => MethodsPayModel.fromJson(Map<String, dynamic>.from(m))).toList();
       add( GetMethodsPay(methodsModel) );
-      getProducts();
+      // await getProducts();
     }
   }
 
