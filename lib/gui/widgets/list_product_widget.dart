@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/views/details_product_view/details_product_view.dart';
+import 'package:shopbeer/gui/widgets/pipe_widget.dart';
 
 class ListProductWidget extends StatefulWidget {
   final String titleHeader;
@@ -69,7 +70,7 @@ class _ListProductWidgetState extends State<ListProductWidget> {
                     child: Text(product.name!, style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 13.0), textAlign: TextAlign.center,),
                   ),
                   const SizedBox(height: 5.0),
-                  Text(product.price!)
+                  Text(PipeWidget().formato(int.parse(product.price!)))
                 ],
               ),
             ),

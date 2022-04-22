@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
+import 'package:shopbeer/gui/widgets/pipe_widget.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
 
 class DetailProductView extends StatefulWidget {
@@ -36,7 +37,7 @@ class _DetailProductViewState extends State<DetailProductView> {
             ),
             const SizedBox(height: 20.0),
             Text(widget.product!.name!, style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 24.0)),
-            Text(widget.product!.price!, style: Theme.of(context).textTheme.headline6,),
+            Text(PipeWidget().formato(int.parse(widget.product!.price!)), style: Theme.of(context).textTheme.headline6,),
             const SizedBox(height: 10.0),
             Text(widget.product!.description!, style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 18.0)),
             const SizedBox(height: 20.0),
@@ -62,7 +63,7 @@ class _DetailProductViewState extends State<DetailProductView> {
   }
 
   Widget _addProductPrice() {
-    return cantidad == 1 ? const SizedBox() : Text(priceTotal.toString(), style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 25.0));
+    return cantidad == 1 ? const SizedBox() : Text(PipeWidget().formato(int.parse(priceTotal.toString())), style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 25.0));
   }
 
   Widget _buttons() {
