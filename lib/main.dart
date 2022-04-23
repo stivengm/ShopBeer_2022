@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopbeer/core/paths/app_paths.dart';
 import 'package:shopbeer/core/providers/bloc_provider.dart';
+import 'package:shopbeer/core/services/push_notifications_service.dart';
 import 'package:shopbeer/gui/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await PushNotificationsService.initializeApp();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
