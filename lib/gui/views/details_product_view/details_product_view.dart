@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/widgets/pipe_widget.dart';
@@ -43,7 +44,18 @@ class _DetailProductViewState extends State<DetailProductView> {
             const SizedBox(height: 20.0),
             _actions(),
             const SizedBox(height: 20.0),
-            PrimaryButton(text: 'Añadir al carrito', onPressed: () {}),
+            PrimaryButton(text: 'Añadir al carrito', onPressed: () {
+              ProductsModel product = ProductsModel(
+                id: widget.product!.id,
+                description: widget.product!.description,
+                img: widget.product!.img,
+                name: widget.product!.name,
+                price: widget.product!.price,
+                typeProductId: widget.product!.typeProductId,
+                cantidad: cantidad
+              );
+              DataBaseApp.instance.createCartItem(product);
+            }),
             const SizedBox(height: 20.0)
           ],
         ),
