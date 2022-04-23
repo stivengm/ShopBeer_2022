@@ -6,6 +6,7 @@ import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/views/cart_view/cart_empy_view.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
+import 'package:shopbeer/gui/widgets/pipe_widget.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
 
 class CartView extends StatefulWidget {
@@ -55,8 +56,11 @@ class _CartViewState extends State<CartView> {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                color: primaryColor,
+              child: ListView.builder(
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  return _item(products[index]);
+                }
               )
             ),
             Padding(
@@ -83,4 +87,78 @@ class _CartViewState extends State<CartView> {
       ),
     );
   }
+
+  Widget _item(ProductsModel product) {
+    int priceTotal = int.parse(product.price!) * product.cantidad!; 
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      decoration: BoxDecoration(
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(10.0)
+      ),
+      child: Row(
+        children: [
+          Image.network(product.img!, width: 140.0),
+          const SizedBox(width: 10.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(product.name!, style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 17.0)),
+                Text("Cantidad: ${product.cantidad.toString()}"),
+                Text("\$${PipeWidget().formato(priceTotal)}"),
+              ],
+            ),
+          ),
+          _actions()
+        ],
+      ),
+    );
+  }
+
+  Widget _actions() {
+    return Column(
+      children: [
+        Material(
+          borderRadius: BorderRadius.circular(50.0),
+          color: dangerColor,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+            onTap: () {
+              // DataBaseApp.instance.createFavorite(product);
+            },
+            child: const SizedBox(
+              height: 40.0,
+              width: 40.0,
+              child: Icon(
+                Icons.delete,
+                color: whiteColor
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10.0),
+        Material(
+          borderRadius: BorderRadius.circular(50.0),
+          color: primaryColor,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+            onTap: () {
+              // DataBaseApp.instance.createFavorite(product);
+            },
+            child: const SizedBox(
+              height: 40.0,
+              width: 40.0,
+              child: Icon(
+                Icons.edit,
+                color: whiteColor
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
 }
