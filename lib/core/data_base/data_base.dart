@@ -1,3 +1,4 @@
+import 'package:shopbeer/data/models/on_boarding_data_base_model.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -15,7 +16,7 @@ class DataBaseApp {
 
     if (_database != null) return _database!;
 
-    _database = await _initDB('test1.db');
+    _database = await _initDB('test3.db');
 
     return _database!;
 
@@ -57,6 +58,13 @@ class DataBaseApp {
         cantidad $integerType
       )
     ''');
+    await db.execute('''
+      CREATE TABLE onBoarding(
+        id $idType,
+        show $textType,
+        description $textType
+      )
+    ''');
   }
 
   Future<List<ProductsModel>> readAllFavorites() async {
@@ -64,6 +72,13 @@ class DataBaseApp {
 
     final result = await db.query('favorites');
     return result.map((json) => ProductsModel.fromJson(json)).toList();
+  }
+
+  Future<List<OnBoardingDataBaseModel>> readOnBoarding() async {
+    final db = await instance.db;
+
+    final result = await db.query('onBoarding');
+    return result.map((json) => OnBoardingDataBaseModel.fromJson(json)).toList();
   }
 
   Future<List<ProductsModel>> readAllCartProduct() async {
@@ -89,6 +104,13 @@ class DataBaseApp {
 
     final id = await db.insert('favorites', prod.toJson());
     return product.copyWith(id: id);
+  }
+
+  Future<OnBoardingDataBaseModel> onBoardingViewer(OnBoardingDataBaseModel onBoarding) async {
+    final db = await instance.db;
+
+    final id = await db.insert('onBoarding', onBoarding.toJson());
+    return onBoarding.copyWith(id: id);
   }
 
   Future<ProductsModel> createCartItem(ProductsModel product) async {
