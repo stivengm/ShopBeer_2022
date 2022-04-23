@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
+import 'package:shopbeer/gui/views/details_product_view/details_product_view.dart';
+import 'package:shopbeer/gui/widgets/pipe_widget.dart';
 
 class ListProductWidget extends StatefulWidget {
   final String titleHeader;
@@ -38,37 +41,68 @@ class _ListProductWidgetState extends State<ListProductWidget> {
   }
 
   Widget _item(ProductsModel? product) {
-    return Container(
-      width: 120.0,
-      decoration: const BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(defaultPadding)
-        )
-      ),
-      margin: const EdgeInsets.only(right: 10.0),
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-      child: Column(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProductView(product: product)));
+      },
+      child: Stack(
         children: [
-          Hero(
-            tag: 1,
-            child: Image.network(product!.img!, fit: BoxFit.contain, height: 100.0)
-          ),
-          SizedBox(
-            height: 50.0,
+          Container(
+            width: 120.0,
+            decoration: const BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(defaultPadding)
+              )
+            ),
+            margin: const EdgeInsets.only(right: 10.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(product.name!, style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 13.0)),
-                // TextApp(text: productsServices.productsCerveza[i].name, size: 13.0, font: 'Rubik', fontW: FontWeight.bold, textAlign: TextAlign.center,),
-                const SizedBox(height: 5.0),
-                const Text("10.000")
-                // TextApp(text: "\$ ${_formato(int.parse(productsServices.productsCerveza[i].price))}", size: 12.0, font: 'Rubik', fontW: FontWeight.w500,)
+                Hero(
+                  tag: product!.id!,
+                  child: Image.network(product.img!, fit: BoxFit.contain, height: 100.0)
+                ),
+                SizedBox(
+                  height: 50.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(product.name!, style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 13.0), textAlign: TextAlign.center,),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Text(PipeWidget().formato(int.parse(product.price!)))
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
+          Positioned(
+            right: 10.0,
+            top: 0,
+            child: Material(
+              borderRadius: BorderRadius.circular(50.0),
+              color: transparent,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: InkWell(
+                onTap: () {
+                  DataBaseApp.instance.createFavorite(product);
+                },
+                child: const SizedBox(
+                  height: 40.0,
+                  width: 40.0,
+                  child: Icon(
+                    Icons.favorite_border_outlined,
+                    color: greyColor
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ]
       ),
     );
   }

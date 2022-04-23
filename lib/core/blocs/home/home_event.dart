@@ -17,6 +17,11 @@ class SaveProductsCerveza extends HomeEvent {
   const SaveProductsCerveza(this.productsCerveza);
 }
 
+class SaveProductsAguardiente extends HomeEvent {
+  final List<ProductsModel>? productsAguardiente;
+  const SaveProductsAguardiente(this.productsAguardiente);
+}
+
 class GetProducts extends HomeEvent {
   final List<ProductsModel>? productsModel;
   const GetProducts(this.productsModel);

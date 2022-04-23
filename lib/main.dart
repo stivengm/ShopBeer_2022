@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopbeer/core/paths/app_paths.dart';
+import 'package:shopbeer/core/paths/dotenv_paths.dart';
 import 'package:shopbeer/core/providers/bloc_provider.dart';
 import 'package:shopbeer/core/services/push_notifications_service.dart';
 import 'package:shopbeer/gui/constants.dart';
@@ -9,7 +10,7 @@ import 'package:shopbeer/gui/constants.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PushNotificationsService.initializeApp();
-  // await Firebase.initializeApp();
+  await DotEnv.load();
   runApp(const MyApp());
 }
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   MaterialApp mateApp() => MaterialApp(
       title: 'ShopBeer',
       theme: ThemeData(
+        fontFamily: 'Gordita',
         scaffoldBackgroundColor: backgroundApp,
         primarySwatch: Colors.deepPurple,
       ),
