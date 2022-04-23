@@ -106,6 +106,9 @@ flutter:
           weight: 700
         - asset: assets/fonts/Gordita_Light.otf
           weight: 300
+    - family: Curved
+      fonts:
+        - asset: assets/fonts/Satisfy-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
