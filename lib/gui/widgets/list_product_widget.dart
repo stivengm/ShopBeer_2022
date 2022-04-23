@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/views/details_product_view/details_product_view.dart';
@@ -87,7 +88,9 @@ class _ListProductWidgetState extends State<ListProductWidget> {
               color: transparent,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  DataBaseApp.instance.createFavorite(product);
+                },
                 child: const SizedBox(
                   height: 40.0,
                   width: 40.0,
