@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
+import 'package:shopbeer/gui/views/favorites_view/favoritos_empy_view.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
 import 'package:shopbeer/gui/widgets/pipe_widget.dart';
@@ -40,15 +41,7 @@ class _FavoritesViewState extends State<FavoritesView> {
   }
 
   Widget _body() {
-    return products.isEmpty ? _noItemsFavorites() : _buildFavorites();
-  }
-
-  Widget _noItemsFavorites() {
-    return Column(
-      children: [
-        Text("No hay productos")
-      ],
-    );
+    return products.isEmpty ? const FavoritosEmpyView() : _buildFavorites();
   }
 
   Widget _buildFavorites() {
