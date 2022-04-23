@@ -56,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
         if (state.isLoading) return const LoadingAppWidget();
 
         return Scaffold(
-          appBar: const AppBarGeneralWidget(titleAppbar: 'ShopBeer'),
+          appBar: const AppBarGeneralWidget(titleAppbar: 'ShopBeer', fontFamily: 'Curved', fontSize: 30.0,),
           body: _body(),
           floatingActionButton: floatingActionButton(),
         );
