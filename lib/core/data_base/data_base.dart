@@ -15,7 +15,7 @@ class DataBaseApp {
 
     if (_database != null) return _database!;
 
-    _database = await _initDB('shop_beer_app.db');
+    _database = await _initDB('test1.db');
 
     return _database!;
 
@@ -42,8 +42,11 @@ class DataBaseApp {
         img $textType,
         description $textType,
         typeProductId $integerType,
-        price $textType
+        price $textType,
+        cantidad $integerType
       )
+    ''');
+    await db.execute('''
       CREATE TABLE cart(
         id $idType,
         name $textType,
@@ -82,8 +85,9 @@ class DataBaseApp {
 
   Future<ProductsModel> createFavorite(ProductsModel product) async {
     final db = await instance.db;
+    final prod = product.copyWith(cantidad: 0);
 
-    final id = await db.insert('favorites', product.toJson());
+    final id = await db.insert('favorites', prod.toJson());
     return product.copyWith(id: id);
   }
 
