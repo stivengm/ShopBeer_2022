@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shopbeer/core/data_base/data_base.dart';
+import 'package:shopbeer/data/models/on_boarding_data_base_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/data/models/on_boarding_model.dart';
 
@@ -110,12 +112,21 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   Widget _buttonAnimated() {
     return ElevatedButton(
       onPressed: () {
-        _currentPage + 1 == onBoardingInfo.length ?
-        Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false) :
-        _controller.nextPage(
-          duration: const Duration(milliseconds: 1000),
-          curve: Curves.elasticOut,
-        );
+        if (_currentPage + 1 == onBoardingInfo.length) {
+          final onBoarding = OnBoardingDataBaseModel(
+            id: 1,
+            show: "false",
+            description: "Ya se mostró el OnBoarding."
+          );
+          DataBaseApp.instance.onBoardingViewer(onBoarding);
+          Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+        } else {
+          _controller.nextPage(
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.elasticOut,
+          );
+
+        }
       },
       child: Text( _currentPage + 1 == onBoardingInfo.length ? "INICIAR" : "SIGUIENTE"),
       style: ElevatedButton.styleFrom(
