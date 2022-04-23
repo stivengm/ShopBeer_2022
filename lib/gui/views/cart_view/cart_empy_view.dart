@@ -5,13 +5,23 @@ class CartEmpyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFFC07DF3),
-      child: Column(
-        children: [
-          Image.asset("assets/resources/cart_empy.jpg")
-        ],
-      ),
+    Size media = MediaQuery.of(context).size;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Image.asset("assets/resources/cart_empy.png", height: media.height * .4, width: double.infinity),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: media.width * .1),
+          child: Column(
+            children: [
+              Text("¡Tu carrito está vacío!", style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 23.0), textAlign: TextAlign.center),
+              const SizedBox(height: 10.0),
+              const Text("Vuelve al inicio y agrega un artículo al carrito."),
+            ],
+          ),
+        ),
+        const SizedBox()
+      ],
     );
   }
 }
