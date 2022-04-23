@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
   MaterialApp mateApp() => MaterialApp(
       title: 'ShopBeer',
       theme: ThemeData(
+        fontFamily: 'Gordita',
         scaffoldBackgroundColor: backgroundApp,
         primarySwatch: Colors.deepPurple,
       ),
