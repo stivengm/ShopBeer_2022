@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/core/blocs/home/home_bloc.dart';
 import 'package:shopbeer/gui/views/home_view/home_view_store.dart';
 import 'package:shopbeer/gui/views/home_view/modal_location.dart';
@@ -67,38 +68,45 @@ class _HomeViewState extends State<HomeView> {
   Widget _body() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              children: [
-                (state.methodsPay != null && state.methodsPay!.isNotEmpty)
-                    ? MethodsPay(methodsPay: state.methodsPay)
-                    : const SizedBox(),
-                // DiscountWidget()
-                // const LimitedTime(),
-                (_store.productsCerveza.isNotEmpty)
-                    ? ListProductWidget(
-                        titleHeader: 'Cerveza',
-                        products: _store.productsCerveza,
-                      )
-                    : const SizedBox(),
-                const SizedBox(height: 20.0),
-                (_store.productsAguardiente.isNotEmpty)
-                    ? ListProductWidget(
-                        titleHeader: 'Aguardiente',
-                        products: _store.productsAguardiente,
-                      )
-                    : const SizedBox(),
-                const SizedBox(height: 20.0),
-                (_store.productsRon.isNotEmpty)
-                    ? ListProductWidget(
-                        titleHeader: 'Ron',
-                        products: _store.productsRon,
-                      )
-                    : const SizedBox(),
-                const SizedBox(height: 20.0)
-              ],
+        return SizedBox(
+          child: GestureDetector(
+            onTap: () {
+              ZoomDrawer.of(context)!.close();
+            },
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    (state.methodsPay != null && state.methodsPay!.isNotEmpty)
+                        ? MethodsPay(methodsPay: state.methodsPay)
+                        : const SizedBox(),
+                    // DiscountWidget()
+                    // const LimitedTime(),
+                    (_store.productsCerveza.isNotEmpty)
+                        ? ListProductWidget(
+                            titleHeader: 'Cerveza',
+                            products: _store.productsCerveza,
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20.0),
+                    (_store.productsAguardiente.isNotEmpty)
+                        ? ListProductWidget(
+                            titleHeader: 'Aguardiente',
+                            products: _store.productsAguardiente,
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20.0),
+                    (_store.productsRon.isNotEmpty)
+                        ? ListProductWidget(
+                            titleHeader: 'Ron',
+                            products: _store.productsRon,
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20.0)
+                  ],
+                ),
+              ),
             ),
           ),
         );
