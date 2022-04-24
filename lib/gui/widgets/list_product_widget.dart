@@ -61,7 +61,12 @@ class _ListProductWidgetState extends State<ListProductWidget> {
               children: [
                 Hero(
                   tag: product!.id!,
-                  child: Image.network(product.img!, fit: BoxFit.contain, height: 100.0)
+                  child: FadeInImage(
+                    placeholder: const AssetImage('assets/resources/loading-image.gif'),
+                    image: NetworkImage(product.img!),
+                    fit: BoxFit.contain,
+                    height: 100.0,
+                  ),
                 ),
                 SizedBox(
                   height: 50.0,
