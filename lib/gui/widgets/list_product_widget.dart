@@ -3,6 +3,7 @@ import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/views/details_product_view/details_product_view.dart';
+import 'package:shopbeer/gui/widgets/notifications_widget.dart';
 import 'package:shopbeer/gui/widgets/pipe_widget.dart';
 
 class ListProductWidget extends StatefulWidget {
@@ -95,6 +96,7 @@ class _ListProductWidgetState extends State<ListProductWidget> {
               child: InkWell(
                 onTap: () {
                   DataBaseApp.instance.createFavorite(product);
+                  NotificationsWidget(message: 'Has agregado ${product.name} a tu lista de favoritos.',).showNotificationSuccess(context);
                 },
                 child: const SizedBox(
                   height: 40.0,
