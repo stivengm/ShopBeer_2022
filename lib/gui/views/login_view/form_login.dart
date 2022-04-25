@@ -2,6 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopbeer/core/blocs/login/login_bloc.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/widgets/notifications_widget.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
@@ -125,10 +127,14 @@ class _FormLoginState extends State<FormLogin> {
     if (!isValidForm) return;
 
     try {
+      final loginBloc = BlocProvider.of<LoginBloc>(context);
       final response = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(), 
         password: passwordController.text.trim()
       );
+      // response.user;
+      // loginBloc.add( InfoUser(response.user) );
+      loginBloc.add( const IsLogguedUser(true) );
       print(response);
     } on FirebaseException catch (e) {
       NotificationsWidget(message: e.message!,).showNotificationError(context);
