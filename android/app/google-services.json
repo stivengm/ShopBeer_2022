@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "304093722137",
+    "firebase_url": "https://shop-beer-default-rtdb.firebaseio.com",
+    "project_id": "shop-beer",
+    "storage_bucket": "shop-beer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304093722137:android:33a9fcb7741f7b1bea9c88",
+        "android_client_info": {
+          "package_name": "com.ggp0.shopbeer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304093722137-cs8potp9hheo5hmeql6ulv8ejdpoa9bk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8GESHeVYS-yZUm3n9ytoAPIqQkM0xd7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304093722137-cs8potp9hheo5hmeql6ulv8ejdpoa9bk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "304093722137-rm734j1qfpoucrepqckruo9g0cc3l4od.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ggp0.shopbeer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

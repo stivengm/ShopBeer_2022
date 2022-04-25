@@ -1,6 +1,11 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopbeer/core/blocs/login/login_bloc.dart';
 import 'package:shopbeer/gui/constants.dart';
+import 'package:shopbeer/gui/widgets/notifications_widget.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
 
 class FormLogin extends StatefulWidget {
@@ -12,6 +17,9 @@ class FormLogin extends StatefulWidget {
 
 class _FormLoginState extends State<FormLogin> {
   bool _passwordVisible = true;
+  final formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -21,15 +29,16 @@ class _FormLoginState extends State<FormLogin> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Column(
         children: [
           TextFormField(
             textInputAction: TextInputAction.next,
-            onChanged: (value) {
-
-            },
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             autocorrect: false,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (email) => email != null && !EmailValidator.validate(email) ? 'Ingrese un email válido' : null,
             decoration: InputDecoration(
               labelText: 'Email',
               labelStyle: const TextStyle(
@@ -50,8 +59,10 @@ class _FormLoginState extends State<FormLogin> {
           const SizedBox(height: 15.0),
           TextFormField(
             obscureText: _passwordVisible,
-            onChanged: (value) { },
+            controller: passwordController,
             autocorrect: false,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (pass) => pass != null && pass.length < 6 ? 'Ingrese mínimo 6 caracteres' : null,
             decoration: InputDecoration(
               labelText: 'Contraseña',
               labelStyle: const TextStyle(
@@ -83,11 +94,10 @@ class _FormLoginState extends State<FormLogin> {
           ),
           const SizedBox(height: 10.0),
           const Text("Ha olvidado la contraseña?"),
-          // const TextApp(text: 'Ha olvidado la contraseña?', color: blackColor),
           const SizedBox(height: 20.0),
           PrimaryButton(
             text: 'Siguiente',
-            onPressed: () => Navigator.pop(context)
+            onPressed: signIn
           ),
           const SizedBox(height: 30.0),
           RichText(
@@ -110,6 +120,29 @@ class _FormLoginState extends State<FormLogin> {
         ],
       ),
     );
+  }
+
+  Future signIn() async {
+    final isValidForm = formKey.currentState!.validate();
+    if (!isValidForm) return;
+
+    try {
+      final loginBloc = BlocProvider.of<LoginBloc>(context);
+      final response = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(), 
+        password: passwordController.text.trim()
+      );
+      // response.user;
+      // loginBloc.add( InfoUser(response.user) );
+      loginBloc.add( const IsLogguedUser(true) );
+      print(response);
+    } on FirebaseException catch (e) {
+      NotificationsWidget(message: e.message!,).showNotificationError(context);
+      return;
+    }
+
+    Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+
   }
 
   TapGestureRecognizer _registro() {
