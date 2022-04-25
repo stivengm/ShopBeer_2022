@@ -119,11 +119,22 @@ class DataBaseApp {
     return result.map((json) => ProductsModel.fromJson(json)).toList();
   }
 
-  Future<ProductsModel> createCartItem(ProductsModel product) async {
+  Future<int> createCartItem(ProductsModel product) async {
     final db = await instance.db;
+    final response = await validExistItem(db, product.id!);
+    // ignore: unrelated_type_equality_checks
+    if (response == false) {
+      final id = await db.insert('cart', product.toJson());
+      product.copyWith(id: id);
+      return id;
+    } else {
+      return 0;
+    }
+  }
 
-    final id = await db.insert('cart', product.toJson());
-    return product.copyWith(id: id);
+  Future<bool> validExistItem(Database db, int id) async {
+    final resp = await db.query('cart', where: 'id = ?', whereArgs: [id]);
+    return resp.isNotEmpty ? true : false;
   }
 
   Future<int> deleteItemCart(int id) async {
