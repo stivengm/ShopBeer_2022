@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:304093722137:ios:fc29a533e38382daea9c88</string>
+	<string>1:304093722137:ios:0e43a3c888e6ea9eea9c88</string>
 	<key>DATABASE_URL</key>
 	<string>https://shop-beer-default-rtdb.firebaseio.com</string>
 </dict>

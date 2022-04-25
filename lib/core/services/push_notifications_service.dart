@@ -2,6 +2,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shopbeer/firebase_options.dart';
 
 class PushNotificationsService {
 
@@ -22,7 +23,9 @@ class PushNotificationsService {
  
   static Future initializeApp() async {
 
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
+    );
     token = await FirebaseMessaging.instance.getToken();
     print('Token: $token');
 

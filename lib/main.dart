@@ -8,8 +8,8 @@ import 'package:shopbeer/gui/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PushNotificationsService.initializeApp();
   await DotEnv.load();
+  await PushNotificationsService.initializeApp();
   runApp(const MyApp());
 }
 
