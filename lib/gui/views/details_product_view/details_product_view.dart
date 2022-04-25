@@ -7,7 +7,8 @@ import 'package:shopbeer/gui/widgets/primary_button.dart';
 
 class DetailProductView extends StatefulWidget {
   final ProductsModel? product;
-  const DetailProductView({ Key? key, this.product }) : super(key: key);
+  final bool? isFavorite;
+  const DetailProductView({ Key? key, this.product, this.isFavorite = false }) : super(key: key);
 
   @override
   State<DetailProductView> createState() => _DetailProductViewState();
@@ -19,7 +20,20 @@ class _DetailProductViewState extends State<DetailProductView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              widget.isFavorite! ? Icons.favorite : Icons.favorite_border_outlined,
+              color: widget.isFavorite! ? dangerColor : whiteColor,
+              size: 30.0,
+            ),
+            onPressed: () {
+
+            },
+          ),
+        ],
+      ),
       body: _body(),
     );
   }
@@ -44,7 +58,7 @@ class _DetailProductViewState extends State<DetailProductView> {
             const SizedBox(height: 20.0),
             _actions(),
             const SizedBox(height: 20.0),
-            PrimaryButton(text: 'Añadir al carrito', onPressed: () {
+            PrimaryButton(text: 'Añadir al carrito', onPressed: () async {
               ProductsModel product = ProductsModel(
                 id: widget.product!.id,
                 description: widget.product!.description,
@@ -54,7 +68,7 @@ class _DetailProductViewState extends State<DetailProductView> {
                 typeProductId: widget.product!.typeProductId,
                 cantidad: cantidad
               );
-              DataBaseApp.instance.createCartItem(product);
+              await DataBaseApp.instance.createCartItem(product);
             }),
             const SizedBox(height: 20.0)
           ],
