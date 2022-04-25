@@ -67,6 +67,7 @@ class DataBaseApp {
     ''');
   }
 
+  // Favoritos
   Future<List<ProductsModel>> readAllFavorites() async {
     final db = await instance.db;
 
@@ -74,18 +75,12 @@ class DataBaseApp {
     return result.map((json) => ProductsModel.fromJson(json)).toList();
   }
 
-  Future<List<OnBoardingDataBaseModel>> readOnBoarding() async {
+  Future<ProductsModel> createFavorite(ProductsModel product) async {
     final db = await instance.db;
+    final prod = product.copyWith(cantidad: 0);
 
-    final result = await db.query('onBoarding');
-    return result.map((json) => OnBoardingDataBaseModel.fromJson(json)).toList();
-  }
-
-  Future<List<ProductsModel>> readAllCartProduct() async {
-    final db = await instance.db;
-
-    final result = await db.query('cart');
-    return result.map((json) => ProductsModel.fromJson(json)).toList();
+    final id = await db.insert('favorites', prod.toJson());
+    return product.copyWith(id: id);
   }
 
   Future<int> deleteFavorites(int id) async {
@@ -98,12 +93,13 @@ class DataBaseApp {
     );
   }
 
-  Future<ProductsModel> createFavorite(ProductsModel product) async {
-    final db = await instance.db;
-    final prod = product.copyWith(cantidad: 0);
 
-    final id = await db.insert('favorites', prod.toJson());
-    return product.copyWith(id: id);
+  // OnBoarding
+  Future<List<OnBoardingDataBaseModel>> readOnBoarding() async {
+    final db = await instance.db;
+
+    final result = await db.query('onBoarding');
+    return result.map((json) => OnBoardingDataBaseModel.fromJson(json)).toList();
   }
 
   Future<OnBoardingDataBaseModel> onBoardingViewer(OnBoardingDataBaseModel onBoarding) async {
@@ -113,11 +109,31 @@ class DataBaseApp {
     return onBoarding.copyWith(id: id);
   }
 
+
+
+  // Carrito de compras
+  Future<List<ProductsModel>> readAllCartProduct() async {
+    final db = await instance.db;
+
+    final result = await db.query('cart');
+    return result.map((json) => ProductsModel.fromJson(json)).toList();
+  }
+
   Future<ProductsModel> createCartItem(ProductsModel product) async {
     final db = await instance.db;
 
     final id = await db.insert('cart', product.toJson());
     return product.copyWith(id: id);
+  }
+
+  Future<int> deleteItemCart(int id) async {
+    final db = await instance.db;
+
+    return await db.delete(
+      'cart',
+      where: 'id = ?',
+      whereArgs: [id]
+    );
   }
 
   Future close() async {
