@@ -19,6 +19,7 @@ class CartView extends StatefulWidget {
 class _CartViewState extends State<CartView> {
   late List<ProductsModel> products;
   bool isLoading = false;
+  int total = 0;
 
   @override
   void initState() {
@@ -27,11 +28,19 @@ class _CartViewState extends State<CartView> {
   }
 
   Future getItemsCart() async {
-    setState(() => isLoading = true);
+    setState(() {
+      isLoading = true;
+      total = 0;
+    });
 
     products = await DataBaseApp.instance.readAllCartProduct();
+    
+    for (var item in products) {
+      int totalItem = int.parse(item.price!) * item.cantidad!;
+      total = total + totalItem;
+    }
 
-    setState(() => isLoading = false);
+    setState(() => isLoading = false );
   }
 
   @override
@@ -71,7 +80,7 @@ class _CartViewState extends State<CartView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("TOTAL: ", style: Theme.of(context).textTheme.headline4!.copyWith(fontSize: 20.0)),
-                      Text("10000", style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 25.0))
+                      Text(PipeWidget().formato(total), style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 25.0))
                     ],
                   ),
                   const SizedBox(height: 10.0),
@@ -99,7 +108,7 @@ class _CartViewState extends State<CartView> {
       ),
       child: Row(
         children: [
-          Image.network(product.img!, width: 140.0),
+          Image.network(product.img!, width: 140.0, height: 105.0,),
           const SizedBox(width: 10.0),
           Expanded(
             child: Column(
@@ -111,13 +120,13 @@ class _CartViewState extends State<CartView> {
               ],
             ),
           ),
-          _actions()
+          _actions(product.id!)
         ],
       ),
     );
   }
 
-  Widget _actions() {
+  Widget _actions(int id) {
     return Column(
       children: [
         Material(
@@ -125,8 +134,9 @@ class _CartViewState extends State<CartView> {
           color: dangerColor,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: InkWell(
-            onTap: () {
-              // DataBaseApp.instance.createFavorite(product);
+            onTap: () async {
+              await DataBaseApp.instance.deleteItemCart(id);
+              getItemsCart();
             },
             child: const SizedBox(
               height: 40.0,
