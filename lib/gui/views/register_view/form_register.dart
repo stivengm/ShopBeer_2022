@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopbeer/core/blocs/register/register_bloc.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/widgets/notifications_widget.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
@@ -123,18 +125,17 @@ class _FormRegisterState extends State<FormRegister> {
     final isValidForm = formKey.currentState!.validate();
     if (!isValidForm) return;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator())
-    );
+    final registerBloc = BlocProvider.of<RegisterBloc>(context);
+    registerBloc.add( const IsLoadingApp(true) );
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(), 
         password: passwordController.text.trim()
       );
+      registerBloc.add( const IsLoadingApp(false) );
     } on FirebaseException catch (e) {
+      registerBloc.add( const IsLoadingApp(false) );
       String message = '';
       switch (e.code) {
         case 'email-already-in-use':
@@ -148,10 +149,8 @@ class _FormRegisterState extends State<FormRegister> {
   }
 
   TapGestureRecognizer _registro() {
-
     return TapGestureRecognizer()..onTap = () {
       Navigator.pop(context);
     };
-
   }
 }
