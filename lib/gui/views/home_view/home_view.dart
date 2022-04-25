@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/core/blocs/home/home_bloc.dart';
 import 'package:shopbeer/core/blocs/location/location_bloc.dart';
-import 'package:shopbeer/gui/views/home_view/home_view_store.dart';
 import 'package:shopbeer/gui/views/home_view/modal_location.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
 import 'package:shopbeer/gui/widgets/list_product_widget.dart';
@@ -19,7 +18,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final _store = StoreHomeView();
   @override
   void initState() {
     super.initState();
@@ -32,24 +30,6 @@ class _HomeViewState extends State<HomeView> {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
     await homeBloc.getMethodsPay();
     await homeBloc.getProducts();
-    _store.productsCerveza = [];
-    _store.productsAguardiente = [];
-    _store.productsRon = [];
-    for (var item in _store.productsModel) {
-      switch (item.typeProductId) {
-        case 1:
-          _store.productsCerveza.add(item);
-          break;
-        case 2:
-          _store.productsAguardiente.add(item);
-          break;
-        case 3:
-          _store.productsRon.add(item);
-          break;
-        default:
-      } 
-    }
-    setState(() { });
   }
 
   @override
@@ -94,24 +74,25 @@ class _HomeViewState extends State<HomeView> {
                         : const SizedBox(),
                     // DiscountWidget()
                     // const LimitedTime(),
-                    (_store.productsCerveza.isNotEmpty)
+                    const SizedBox(height: 20.0),
+                    (state.productsCerveza!.isNotEmpty)
                         ? ListProductWidget(
                             titleHeader: 'Cerveza',
-                            products: _store.productsCerveza,
+                            products: state.productsCerveza,
                           )
                         : const SizedBox(),
                     const SizedBox(height: 20.0),
-                    (_store.productsAguardiente.isNotEmpty)
+                    (state.productsAguardiente!.isNotEmpty)
                         ? ListProductWidget(
                             titleHeader: 'Aguardiente',
-                            products: _store.productsAguardiente,
+                            products: state.productsAguardiente,
                           )
                         : const SizedBox(),
                     const SizedBox(height: 20.0),
-                    (_store.productsRon.isNotEmpty)
+                    (state.productsRon!.isNotEmpty)
                         ? ListProductWidget(
                             titleHeader: 'Ron',
-                            products: _store.productsRon,
+                            products: state.productsRon,
                           )
                         : const SizedBox(),
                     const SizedBox(height: 20.0)

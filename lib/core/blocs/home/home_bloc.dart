@@ -27,6 +27,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(productsAguardiente: event.productsAguardiente));
     });
 
+    on<SaveProductsRon>((event, emit) {
+      emit(state.copyWith(productsRon: event.productsRon));
+    });
+
     on<HandleLoading>((event, emit) {
       emit(state.copyWith(isLoading: event.isLoading));
     });
@@ -38,14 +42,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future getProducts() async {
-    final _storeHome = StoreHomeView();
     var url = Uri.https(EndpointPath.endPoint, EndpointPath.products);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final jsonProductsModel = jsonDecode(response.body);
       final List<ProductsModel> methodsModel = jsonProductsModel.map<ProductsModel>((m) => ProductsModel.fromJson(Map<String, dynamic>.from(m))).toList();
-      _storeHome.productsModel = methodsModel;
+      List <ProductsModel> productsCerveza = [];
+      List <ProductsModel> productsAguardiente = [];
+      List <ProductsModel> productsRon = [];
+      for (var item in methodsModel) {
+        switch (item.typeProductId) {
+          case 1:
+            productsCerveza.add(item);
+            break;
+          case 2:
+            productsAguardiente.add(item);
+            break;
+          case 3:
+            productsRon.add(item);
+            break;
+          default:
+        }
+      }
       add( GetProducts(methodsModel) );
+      add( SaveProductsCerveza(productsCerveza) );
+      add( SaveProductsAguardiente(productsAguardiente) );
+      add( SaveProductsRon(productsRon) );
       add( const HandleLoading(false) );
     }
   }
