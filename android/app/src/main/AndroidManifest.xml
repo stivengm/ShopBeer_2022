@@ -13,6 +13,9 @@
         android:label="ShopBeer"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDBI9W5nanfM3O5xzf_uRGFu9zm5g9DKx8"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
