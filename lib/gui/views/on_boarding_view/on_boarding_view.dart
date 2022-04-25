@@ -162,7 +162,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     return Row(
       children: [
         ElevatedButton(
-          onPressed: () => _controller.jumpToPage(2),
+          onPressed: () => _controller.jumpToPage(3),
           child: Text(_currentPage + 1 == onBoardingInfo.length ? "" : "OMITIR", style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 15.0)),
           style: TextButton.styleFrom(
             elevation: 0,
