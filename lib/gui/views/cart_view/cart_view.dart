@@ -4,10 +4,13 @@ import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/views/cart_view/cart_empy_view.dart';
+import 'package:shopbeer/gui/views/preparing_order_view/preparing_order_view.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
 import 'package:shopbeer/gui/widgets/pipe_widget.dart';
-import 'package:shopbeer/gui/widgets/primary_button.dart';
+import 'package:swipeable_button_view/swipeable_button_view.dart';
+import 'package:page_transition/page_transition.dart';
+
 
 class CartView extends StatefulWidget {
   const CartView({ Key? key }) : super(key: key);
@@ -20,6 +23,7 @@ class _CartViewState extends State<CartView> {
   late List<ProductsModel> products;
   bool isLoading = false;
   int total = 0;
+  bool isFinished = false;
 
   @override
   void initState() {
@@ -56,7 +60,6 @@ class _CartViewState extends State<CartView> {
   }
 
   Widget _buildCart() {
-    Size media = MediaQuery.of(context).size;
     return SizedBox(
       child: GestureDetector(
         onTap: () {
@@ -76,6 +79,7 @@ class _CartViewState extends State<CartView> {
               padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 20.0),
               child: Column(
                 children: [
+                  Text(isFinished.toString()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -85,8 +89,32 @@ class _CartViewState extends State<CartView> {
                   ),
                   const SizedBox(height: 10.0),
                   SizedBox(
-                    width: media.width * .5,
-                    child: PrimaryButton(text: 'Confirmar', onPressed: () {}),
+                    child: SwipeableButtonView(
+                      buttonText: "Desliza para confirmar",
+                      buttonWidget: const SizedBox(
+                        child: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 30.0,
+                          color: primaryColor,
+                        )
+                      ),
+                      activeColor: primaryColor,
+                      isFinished: isFinished,
+                      onWaitingProcess: () {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          setState(() => isFinished = true );
+                        });
+                      },
+                      onFinish: () async {
+                        await Navigator.push(
+                          context, PageTransition(
+                            type: PageTransitionType.fade,
+                            child: const PreparingOrderView()
+                          )
+                        );
+                        setState(() => isFinished = false);
+                      },
+                    ),
                   ),
                 ],
               ),
