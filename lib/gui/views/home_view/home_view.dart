@@ -76,6 +76,14 @@ class _HomeViewState extends State<HomeView> {
             onTap: () {
               ZoomDrawer.of(context)!.close();
             },
+            onPanUpdate: (value) {
+              if (value.delta.dx > 0) {
+                ZoomDrawer.of(context)!.toggle();
+              }
+              if (value.delta.dx < 0) {
+                ZoomDrawer.of(context)!.close();
+              }
+            },
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
