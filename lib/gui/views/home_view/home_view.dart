@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:shopbeer/core/blocs/home/home_bloc.dart';
+import 'package:shopbeer/core/blocs/location/location_bloc.dart';
 import 'package:shopbeer/gui/views/home_view/home_view_store.dart';
 import 'package:shopbeer/gui/views/home_view/modal_location.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
@@ -22,6 +23,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
+    final locationBloc = BlocProvider.of<LocationBloc>(context);
+    locationBloc.getCurrentPosition();
     getProductsAndMethodsPay();
   }
 
@@ -120,6 +123,10 @@ class _HomeViewState extends State<HomeView> {
     ),
     onPressed: () => showCupertinoModalBottomSheet(
       context: context,
+      isDismissible: false,
+      bounce: false,
+      duration: const Duration(milliseconds: 1400),
+      animationCurve: Curves.elasticOut,
       builder: (context) => const ModalLocation()
     )
   );
