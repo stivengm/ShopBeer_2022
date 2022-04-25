@@ -50,18 +50,18 @@ class _MenuDrawerZoomViewState extends State<MenuDrawerZoomView> {
               width: size.width * .5,
               child: Column(
                 children: [
+                  Text("ShopBeer", style: Theme.of(context).textTheme.titleLarge!.copyWith(fontFamily: 'Curved', color: whiteColor, fontSize: 50.0),),
                   Expanded(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
-                          Text(state.isLogued.toString()),
                           ...MenuItems.all.map(buildMenuItem).toList()
                         ],
                       ),
                     ),
                   ),
-                  state.isLogued! ? 
+                  state.isLogued ? 
                   PrimaryButton(text: 'Cerrar sesión', onPressed: logOut) :
                   PrimaryButton(
                     text: 'Iniciar sesión',
