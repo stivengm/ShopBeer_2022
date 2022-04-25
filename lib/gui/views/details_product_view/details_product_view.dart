@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
+import 'package:shopbeer/gui/widgets/notifications_widget.dart';
 import 'package:shopbeer/gui/widgets/pipe_widget.dart';
 import 'package:shopbeer/gui/widgets/primary_button.dart';
 
@@ -68,7 +69,12 @@ class _DetailProductViewState extends State<DetailProductView> {
                 typeProductId: widget.product!.typeProductId,
                 cantidad: cantidad
               );
-              await DataBaseApp.instance.createCartItem(product);
+              final id = await DataBaseApp.instance.createCartItem(product);
+              if (id == 0) {
+                const NotificationsWidget(message: "Ya tienes este artículo en el carrito.",).showNotificationError(context);
+              } else {
+                NotificationsWidget(message: "Se ha guardado ${widget.product!.name!} al carrito de compras.",).showNotificationSuccess(context);
+              }
             }),
             const SizedBox(height: 20.0)
           ],
