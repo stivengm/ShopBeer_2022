@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:shopbeer/core/blocs/login/login_bloc.dart';
 import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/products_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/gui/views/cart_view/cart_empy_view.dart';
+import 'package:shopbeer/gui/views/login_view/login_view.dart';
 import 'package:shopbeer/gui/views/preparing_order_view/preparing_order_view.dart';
 import 'package:shopbeer/gui/widgets/appbar_general_widget.dart';
 import 'package:shopbeer/gui/widgets/loading_app_widget.dart';
@@ -79,7 +82,6 @@ class _CartViewState extends State<CartView> {
               padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 20.0),
               child: Column(
                 children: [
-                  Text(isFinished.toString()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -88,40 +90,57 @@ class _CartViewState extends State<CartView> {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  SizedBox(
-                    child: SwipeableButtonView(
-                      buttonText: "Desliza para confirmar",
-                      buttonWidget: const SizedBox(
-                        child: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 30.0,
-                          color: primaryColor,
-                        )
-                      ),
-                      activeColor: primaryColor,
-                      isFinished: isFinished,
-                      onWaitingProcess: () {
-                        Future.delayed(const Duration(seconds: 2), () {
-                          setState(() => isFinished = true );
-                        });
-                      },
-                      onFinish: () async {
-                        await Navigator.push(
-                          context, PageTransition(
-                            type: PageTransitionType.fade,
-                            child: const PreparingOrderView()
-                          )
-                        );
-                        setState(() => isFinished = false);
-                      },
-                    ),
-                  ),
+                  _buttonSwiper(),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buttonSwiper() {
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return SizedBox(
+          child: SwipeableButtonView(
+            buttonText: "Desliza para confirmar",
+            buttonWidget: const SizedBox(
+              child: Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 30.0,
+                color: primaryColor,
+              )
+            ),
+            activeColor: primaryColor,
+            isFinished: isFinished,
+            onWaitingProcess: () {
+              Future.delayed(const Duration(seconds: 2), () {
+                setState(() => isFinished = true );
+              });
+            },
+            onFinish: () async {
+              if (state.isLogued) {
+                await Navigator.push(
+                  context, PageTransition(
+                    type: PageTransitionType.fade,
+                    child: const PreparingOrderView()
+                  )
+                );
+              } else {
+                await Navigator.push(
+                  context, PageTransition(
+                    type: PageTransitionType.fade,
+                    child: const LoginView()
+                  )
+                );
+              }
+              setState(() => isFinished = false);
+            },
+          ),
+        );
+      },
     );
   }
 

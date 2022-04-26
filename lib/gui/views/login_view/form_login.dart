@@ -137,7 +137,7 @@ class _FormLoginState extends State<FormLogin> {
       // response.user;
       // loginBloc.add( InfoUser(response.user) );
       loginBloc.add( const IsLogguedUser(true) );
-      loginBloc.add( const IsLoading(true) );
+      loginBloc.add( const IsLoading(false) );
       print(response);
     } on FirebaseException catch (e) {
       loginBloc.add( const IsLoading(false) );
