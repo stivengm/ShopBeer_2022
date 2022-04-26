@@ -21,7 +21,12 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     final response = await NotificationsApi().getNotifications();
 
-    add( SaveNotifications(response) );
+    for (var item in response!) {
+      if (item.show!) {
+        add( SaveNotifications(response) );
+      }
+    }
+
     add( const HandleLoading(false) );
 
   }
