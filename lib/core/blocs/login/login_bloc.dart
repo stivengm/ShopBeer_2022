@@ -7,12 +7,13 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super( const LoginState()) {
-    // on<InfoUser>((event, emit) {
-    //   emit( state.copyWith(user: event.user) );
-    // });
-
     on<IsLogguedUser>((event, emit) {
       emit( state.copyWith(isLogued: event.isLogued) );
     });
+
+    on<IsLoading>((event, emit) {
+      emit( state.copyWith(isLoading: event.isLoading) );
+    });
+
   }
 }

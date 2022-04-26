@@ -16,3 +16,8 @@ class IsLogguedUser extends LoginEvent {
   final bool isLogued;
   const IsLogguedUser(this.isLogued);
 }
+
+class IsLoading extends LoginEvent {
+  final bool isLoading;
+  const IsLoading(this.isLoading);
+}
