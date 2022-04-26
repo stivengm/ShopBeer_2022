@@ -126,8 +126,10 @@ class _FormLoginState extends State<FormLogin> {
     final isValidForm = formKey.currentState!.validate();
     if (!isValidForm) return;
 
+    final loginBloc = BlocProvider.of<LoginBloc>(context);
+    loginBloc.add( const IsLoading(true) );
+
     try {
-      final loginBloc = BlocProvider.of<LoginBloc>(context);
       final response = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(), 
         password: passwordController.text.trim()
@@ -135,13 +137,15 @@ class _FormLoginState extends State<FormLogin> {
       // response.user;
       // loginBloc.add( InfoUser(response.user) );
       loginBloc.add( const IsLogguedUser(true) );
+      loginBloc.add( const IsLoading(true) );
       print(response);
     } on FirebaseException catch (e) {
+      loginBloc.add( const IsLoading(false) );
       NotificationsWidget(message: e.message!,).showNotificationError(context);
       return;
     }
 
-    Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+    Navigator.pop(context);
 
   }
 
