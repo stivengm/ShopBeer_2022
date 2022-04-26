@@ -9,14 +9,12 @@ class NotificationsEmpyView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Image.asset('assets/resources/favoritos.png', height: media.height * .4, width: double.infinity),
+        Image.asset('assets/resources/notifications.png', height: media.height * .4, width: double.infinity),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: media.width * .1),
           child: Column(
             children: [
-              Text("No has elegido ningún artículo como favorito.", style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 20.0), textAlign: TextAlign.center),
-              const SizedBox(height: 10.0),
-              const Text("Vuelve al inicio y elige un arítulo como favorito."),
+              Text("No tienes ninguna notificación.", style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 20.0), textAlign: TextAlign.center),
             ],
           ),
         ),
