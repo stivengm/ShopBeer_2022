@@ -7,7 +7,6 @@ import 'package:shopbeer/core/paths/endpoints_path.dart';
 import 'package:shopbeer/data/models/methos_pay_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shopbeer/data/models/products_model.dart';
-import 'package:shopbeer/gui/views/home_view/home_view_store.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

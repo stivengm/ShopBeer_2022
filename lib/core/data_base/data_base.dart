@@ -29,7 +29,6 @@ class DataBaseApp {
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
-  // TODO: Se tiene que crear una tabla para favoritos, guardar información de la persona y la sesión logueada (CREO).
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY';
     const textType = 'TEXT NOT NULL';
