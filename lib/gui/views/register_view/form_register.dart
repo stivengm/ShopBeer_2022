@@ -146,6 +146,8 @@ class _FormRegisterState extends State<FormRegister> {
       NotificationsWidget(message: message).showNotificationError(context);
     }
 
+    Navigator.pop(context);
+
   }
 
   TapGestureRecognizer _registro() {
