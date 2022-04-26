@@ -4,4 +4,5 @@ class EndpointPath {
   static String endPoint = dotenv.env['endpointServices']!;
   static String products = dotenv.env['pathProducts']!;
   static String mediosPay = dotenv.env['pathMediosPago']!;
+  static String notifications = dotenv.env['notifications']!;
 }
