@@ -3,6 +3,8 @@ import 'package:shopbeer/core/data_base/data_base.dart';
 import 'package:shopbeer/data/models/on_boarding_data_base_model.dart';
 import 'package:shopbeer/gui/constants.dart';
 import 'package:shopbeer/data/models/on_boarding_model.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({ Key? key }) : super(key: key);
@@ -15,22 +17,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   final _controller = PageController();
   int _currentPage = 0;
 
-  AnimatedContainer _buildDots(int? index) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 400),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(50)
-        ),
-        color: primaryColor
-      ),
-      margin: const EdgeInsets.only(right: 5.0),
-      height: 10.0,
-      curve: Curves.linearToEaseOut,
-      width: _currentPage == index ? 20 : 10,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +26,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   Widget _body() {
     return Container(
-      color: whiteColor,
+      color: backgroundApp,
       child: Column(
         children: [
           Expanded(
@@ -59,7 +45,16 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _dotsSteps(),
+                SmoothPageIndicator(
+                  controller: _controller,
+                  count:  onBoardingInfo.length,  
+                  effect:  const WormEffect(),
+                  onDotClicked: (index) => _controller.animateToPage(
+                    index, 
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn
+                  ),
+                ),
                 actionsBottom(),
               ],
             )
@@ -99,16 +94,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     );
   }
 
-  Widget _dotsSteps() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        onBoardingInfo.length,
-        (int index) => _buildDots(index)
-      ),
-    );
-  }
-
   Widget _buttonAnimated() {
     return ElevatedButton(
       onPressed: () {
@@ -122,10 +107,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
         } else {
           _controller.nextPage(
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.elasticOut,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn
           );
-
         }
       },
       child: Text( _currentPage + 1 == onBoardingInfo.length ? "INICIAR" : "SIGUIENTE"),
@@ -148,8 +132,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
         children: [
           buttonSkip(),
           AnimatedPositioned(
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.elasticInOut,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
             right: _currentPage + 1 == onBoardingInfo.length ? media.width * .28 : 0,
             child: _buttonAnimated()
           ),
@@ -162,7 +146,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     return Row(
       children: [
         ElevatedButton(
-          onPressed: () => _controller.jumpToPage(3),
+          onPressed: () => _controller.animateToPage(
+            onBoardingInfo.length - 1, 
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeIn
+          ),
           child: Text(_currentPage + 1 == onBoardingInfo.length ? "" : "OMITIR", style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 15.0)),
           style: TextButton.styleFrom(
             elevation: 0,
