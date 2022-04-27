@@ -29,7 +29,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Gordita',
         scaffoldBackgroundColor: backgroundApp,
-        primarySwatch: Colors.deepPurple,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: primaryColor,
+        )
       ),
       debugShowCheckedModeBanner: false,
       routes: routesApp(),
