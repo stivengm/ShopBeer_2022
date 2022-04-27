@@ -20,9 +20,26 @@ class _PreparingOrderViewState extends State<PreparingOrderView> {
   }
 
   Widget _body() {
+    Size media = MediaQuery.of(context).size;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        PrimaryButton(text: 'Regresar al inicio', onPressed: returnHome)
+        Image.asset("assets/resources/compra_completada.gif", height: media.height * .3, width: double.infinity),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: media.width * .1),
+          child: Column(
+            children: [
+              Text("¡Enhorabuena!", style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 23.0), textAlign: TextAlign.center),
+              const SizedBox(height: 10.0),
+              const Text("Estamos preparando tu pedido, en unos minutos estaremos en tu puerta entregándotelo.", textAlign: TextAlign.center),
+            ],
+          ),
+        ),
+        SizedBox(
+          width: media.width * .8,
+          child: PrimaryButton(text: 'Regresar al inicio', onPressed: returnHome),
+        ),
+        
       ],
     );
   }
