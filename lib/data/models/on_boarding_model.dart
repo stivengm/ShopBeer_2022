@@ -32,7 +32,7 @@ List<OnBoardingModel> onBoardingInfo = [
   ),
   OnBoardingModel(
     title: "Recibiste tu pedido!",
-    image: "assets/resources/on_boarding/compras.gif",
+    image: "assets/resources/on_boarding/envio.gif",
     description: "Cuando te entreguemos tu pedido puedes revisarlo y confirmarlo.",
   ),
 ];
