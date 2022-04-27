@@ -63,7 +63,9 @@ class _RegisterViewState extends State<RegisterView> {
                       width: double.infinity,
                       height: media.height * 1.0,
                       child: const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: whiteColor,
+                        ),
                       ),
                     ) : const SizedBox()
                   ],
